@@ -44,3 +44,6 @@ ruff==0.8.2
 prometheus-client==0.21.0
 python-json-logger==2.0.7
 
+prometheus-client==0.21.0
+python-json-logger==2.0.7
+

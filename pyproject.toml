@@ -1,0 +1,58 @@
+[project]
+name = "market-pulse-predictor"
+version = "0.1.0"
+description = "Real-Time Market Movement Prediction System (ANN + MLOps)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Market Pulse Predictor Team" }]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = [
+    "data",
+    "models/saved",
+    "mlruns",
+    "notebooks",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "SIM",  # flake8-simplify
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "B008",  # function calls in argument defaults (used by FastAPI Depends)
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-ra -q --tb=short"
+markers = [
+    "slow: marks tests that load heavy ML models (deselect with '-m \"not slow\"')",
+    "integration: integration tests requiring network/credentials",
+]
+
+# Version updated to 1.2.0
+

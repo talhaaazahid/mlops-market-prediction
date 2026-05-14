@@ -1,0 +1,51 @@
+# Single source of truth for all hyperparameters.
+# Read by src/config.py via load_params().
+
+ingestion:
+  tickers: ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "META"]
+  price_period: "2y"
+  price_interval_daily: "1d"
+  price_interval_intraday: "1h"
+  price_intraday_period: "60d"
+  reddit_post_limit: 50
+  reddit_post_limit_small: 30
+  reddit_post_limit_smaller: 20
+  min_reddit_score: 5
+  rss_request_delay_seconds: 1.0
+  reddit_top_comments: 5
+  reddit_comment_max_chars: 500
+
+sentiment:
+  finbert_model: "ProsusAI/finbert"
+  finbert_weight: 0.7
+  vader_weight: 0.3
+  batch_size: 32
+  max_token_length: 512
+  vader_positive_threshold: 0.05
+  vader_negative_threshold: -0.05
+
+features:
+  lookback_days: 30
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  target_horizon_days: 5            # 5-day forward direction → much more learnable than 1-day
+  volatility_spike_multiplier: 2.0
+  return_threshold_3class: 0.01     # 1% threshold for 5-day return → balanced 3-class
+
+training:
+  hidden_dim: 128                  # best quantitative results — early stopping handles overfitting
+  num_layers: 2
+  dropout: 0.3
+  learning_rate: 0.0005
+  batch_size: 64
+  max_epochs: 80                   # capped — best epoch was 1-5, no need for 150
+  early_stopping_patience: 10      # halved — stop fast once val plateaus
+  weight_decay: 0.0001             # L2 regularisation — penalises large weights
+  gradient_clip_norm: 1.0
+  lr_scheduler_factor: 0.5
+  lr_scheduler_patience: 5
+  models: ["rnn", "lstm", "gru", "bilstm_attention"]
+  output_dim: 2        # binary direction (Up/Down) — auto-detected from --target by run_training.py
+  task: "classification"  # "classification" | "regression"
+  random_seed: 42

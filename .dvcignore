@@ -1,0 +1,32 @@
+# DVC ignore file — patterns listed here are excluded from DVC tracking
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor / OS artifacts
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Test artefacts
+.pytest_cache/
+htmlcov/
+.coverage
+
+# MLflow runs directory (tracked separately, not via DVC)
+mlruns/

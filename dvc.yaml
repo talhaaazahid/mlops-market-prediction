@@ -1,0 +1,63 @@
+# dvc.yaml — Reproducible ML pipeline definition
+# Run stages: dvc repro
+# Run single stage: dvc repro <stage_name>
+
+stages:
+
+  ingest:
+    cmd: python scripts/run_ingestion.py
+    deps:
+      - scripts/run_ingestion.py
+      - src/data_ingestion/
+      - src/config.py
+    outs:
+      - data/raw/price_data.csv
+      - data/raw/all_text_data.csv
+    params:
+      - ingestion
+
+  sentiment:
+    cmd: >-
+      python -m src.sentiment.ensemble
+      --input data/raw/all_text_data.csv
+      --output data/processed/sentiment_labeled.csv
+    deps:
+      - data/raw/all_text_data.csv
+      - src/sentiment/
+    outs:
+      - data/processed/sentiment_labeled.csv
+    params:
+      - sentiment
+
+  features:
+    cmd: >-
+      python -m src.feature_engineering.technical_indicators &&
+      python -m src.feature_engineering.sentiment_aggregator &&
+      python -m src.feature_engineering.dataset_builder
+    deps:
+      - data/raw/price_data.csv
+      - data/processed/sentiment_labeled.csv
+      - src/feature_engineering/
+    outs:
+      - data/processed/technical_features.csv
+      - data/processed/daily_sentiment_features.csv
+      - data/features/
+    params:
+      - features
+
+  train:
+    cmd: python scripts/run_training.py
+    deps:
+      - data/features/
+      - src/models/
+      - scripts/run_training.py
+    outs:
+      - models/saved/
+    params:
+      - training
+    metrics:
+      - results/model_comparison.csv:
+          cache: false
+    plots:
+      - results/training_curves.png:
+          cache: false

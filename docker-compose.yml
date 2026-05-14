@@ -1,0 +1,88 @@
+version: "3.8"
+
+# ── Shared volumes ────────────────────────────────────────────────────────── #
+volumes:
+  mlflow_data:       # MLflow backend store (SQLite) + artifact root
+  model_data:        # Trained model checkpoints shared between services
+
+# ── Services ─────────────────────────────────────────────────────────────── #
+services:
+
+  # ── FastAPI backend ─────────────────────────────────────────────────────── #
+  app:
+    build: .
+    image: market-pulse-predictor:latest
+    container_name: market_pulse_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    volumes:
+      - ./data:/app/data
+      - model_data:/app/models
+      - ./results:/app/results
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    command: >
+      uvicorn src.api.main:app
+      --host 0.0.0.0
+      --port 8000
+      --workers 2
+
+  # ── Streamlit frontend ──────────────────────────────────────────────────── #
+  frontend:
+    build: .
+    image: market-pulse-predictor:latest
+    container_name: market_pulse_frontend
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - API_BASE_URL=http://app:8000
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+    command: >
+      streamlit run frontend/app.py
+      --server.port 8501
+      --server.address 0.0.0.0
+      --server.headless true
+      --browser.gatherUsageStats false
+
+  # ── MLflow tracking server ──────────────────────────────────────────────── #
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: market_pulse_mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:5000/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 15s

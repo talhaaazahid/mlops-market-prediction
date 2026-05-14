@@ -1,0 +1,62 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+
+# --- Virtual envs ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --- Secrets ---
+.env
+*.pem
+*.key
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- DVC ---
+/data/raw/*
+/data/processed/*
+/data/features/*
+!/data/raw/.gitkeep
+!/data/processed/.gitkeep
+!/data/features/.gitkeep
+
+# --- Models ---
+/models/saved/*
+!/models/saved/.gitkeep
+
+# --- MLflow ---
+mlruns/
+mlflow.db
+mlartifacts/
+
+# --- Logs ---
+logs/
+*.log
+
+# --- Results / artifacts (DVC tracked) ---
+/results/*.png
+/results/*.txt

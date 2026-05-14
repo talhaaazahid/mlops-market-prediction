@@ -138,3 +138,10 @@ class PredictionResponse(BaseModel):
     model_version: str
     timestamp: datetime
 
+
+class PredictionResponse(BaseModel):
+    confidence: float
+    prediction_interval: float
+    model_version: str
+    timestamp: datetime
+

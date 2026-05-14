@@ -177,3 +177,8 @@ def test_model_inference():
     Test model inference performance.
     assert model_output.shape[0] > 0
 
+
+def test_model_inference():
+    Test model inference performance.
+    assert model_output.shape[0] > 0
+

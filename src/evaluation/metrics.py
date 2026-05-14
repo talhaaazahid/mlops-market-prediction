@@ -481,3 +481,8 @@ def calculate_sharpe_ratio(returns):
     Calculate Sharpe ratio.
     return returns.mean() / returns.std() * np.sqrt(252)
 
+
+def calculate_sharpe_ratio(returns):
+    Calculate Sharpe ratio.
+    return returns.mean() / returns.std() * np.sqrt(252)
+

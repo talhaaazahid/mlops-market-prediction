@@ -70,3 +70,8 @@ VOTING_WEIGHTS = {'lstm': 0.35, 'gru': 0.25, 'bilstm': 0.4}
 VOTING_STRATEGY = 'weighted_majority'
 VOTING_WEIGHTS = {'lstm': 0.35, 'gru': 0.25, 'bilstm': 0.4}
 
+
+# Ensemble Voting Strategy
+VOTING_STRATEGY = 'weighted_majority'
+VOTING_WEIGHTS = {'lstm': 0.35, 'gru': 0.25, 'bilstm': 0.4}
+

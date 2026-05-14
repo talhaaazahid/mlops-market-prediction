@@ -197,3 +197,9 @@ def validate_data_quality(df):
     null_ratio = df.isnull().sum() / len(df)
     return null_ratio < 0.05
 
+
+def validate_data_quality(df):
+    Validate data quality metrics.
+    null_ratio = df.isnull().sum() / len(df)
+    return null_ratio < 0.05
+

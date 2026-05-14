@@ -216,3 +216,9 @@ if __name__ == "__main__":
 # - Volume Profile
 # - Market Profile
 
+
+# New Indicators
+# - Ichimoku Cloud
+# - Volume Profile
+# - Market Profile
+

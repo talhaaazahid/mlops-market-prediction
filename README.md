@@ -523,3 +523,9 @@ Please ensure `ruff check` passes and tests are green before opening a PR.
 - Real-time data streaming setup
 - Multi-GPU training configuration
 
+
+## Advanced Configuration
+- Model architecture customization
+- Real-time data streaming setup
+- Multi-GPU training configuration
+

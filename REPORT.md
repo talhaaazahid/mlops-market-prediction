@@ -268,3 +268,9 @@ Tetlock, P. C. (2007). Giving content to investor sentiment: The role of media i
 - MSFT Accuracy: 71.2% (+0.8%)
 - Inference latency: 45ms per prediction
 
+
+## Latest Performance Benchmarks (2026-05-04)
+- AAPL Accuracy: 68.5% (+1.2%)
+- MSFT Accuracy: 71.2% (+0.8%)
+- Inference latency: 45ms per prediction
+
